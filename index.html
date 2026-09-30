@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Revix</title>
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#090b11">
+<meta name="author" content="shvndn">
+<style>
+:root{--bg:#090b11;--card:#131722;--card2:#1c2130;--line:rgba(255,255,255,.07);--tx:#f4f6fb;--mu:#8a92a6;--ac:#7f9dff;--ac2:#b08cff;--on:#080a10;--ok:#4fd1a1;--warn:#f2b45a;--warnbg:rgba(242,180,90,.14);--bad:#ff7b7b;--glass:rgba(16,19,29,.74);--hero:linear-gradient(150deg,#222a4a,#131722 62%);--sh:0 18px 40px -22px rgba(0,0,0,.8);--ease:cubic-bezier(.22,.9,.25,1)}
+@media(prefers-color-scheme:light){:root{--bg:#f2f3f8;--card:#fff;--card2:#eef0f6;--line:rgba(12,18,40,.08);--tx:#0d1122;--mu:#687086;--ac:#3f5cff;--ac2:#8a5cff;--on:#fff;--ok:#12a679;--warn:#b7791f;--warnbg:rgba(224,150,30,.14);--bad:#e0453f;--glass:rgba(255,255,255,.78);--hero:linear-gradient(150deg,#e3e9ff,#fff 62%);--sh:0 18px 40px -22px rgba(40,60,140,.4)}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.45 -apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+main{max-width:560px;margin:0 auto;padding:22px 18px 120px}
+main.sw{animation:fd .28s var(--ease)}
+h1{font-size:36px;letter-spacing:-.03em;margin:6px 0 2px;font-weight:750;line-height:1.1}
+h2{font-size:20px;letter-spacing:-.015em;margin:30px 0 10px;font-weight:700}
+.mu{color:var(--mu);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:10px}
+.card.row{padding:14px 14px 14px 16px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hero{display:flex;align-items:center;gap:20px;background:var(--hero);border-radius:28px;padding:20px;margin-top:18px;box-shadow:var(--sh)}
+.rw{position:relative;width:118px;height:118px;flex:none}
+.ring{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.rt{stroke:var(--line)}
+.rf{stroke:url(#rg);stroke-dasharray:327;animation:rg 1.1s var(--ease) .1s backwards}
+.hc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hc .big{font-size:34px}.hs{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.big{font-size:34px;font-weight:750;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.bar{height:8px;background:var(--card2);border-radius:8px;overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:8px;animation:gw .9s var(--ease) backwards}
+button{font:inherit;font-weight:600;background:var(--ac);color:var(--on);border:0;border-radius:999px;padding:10px 18px;min-height:40px;cursor:pointer;transition:transform .15s var(--ease),opacity .15s}
+button:active{transform:scale(.95);opacity:.85}
+button.g{background:var(--card2);color:var(--tx)}
+button.d{background:var(--card2);color:var(--bad)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+input,select,textarea{font:inherit;width:100%;background:var(--card2);color:var(--tx);border:1px solid transparent;border-radius:12px;padding:11px 12px;margin:4px 0 12px;min-height:44px;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(127,157,255,.2);outline:0}
+label{font-size:14px;color:var(--mu)}
+.chip{display:inline-block;font-size:12px;font-weight:600;background:var(--card2);border-radius:20px;padding:2px 10px;margin:8px 6px 0 0;color:var(--mu)}
+.chip.i{background:var(--warnbg);color:var(--warn)}
+#strip{display:none;position:sticky;top:env(safe-area-inset-top,0px);z-index:4;background:var(--glass);-webkit-backdrop-filter:saturate(1.8) blur(18px);backdrop-filter:saturate(1.8) blur(18px);border-bottom:1px solid var(--line);padding:8px 12px;font-size:13px;font-weight:600;color:var(--warn);overflow:hidden;white-space:nowrap;text-align:left}
+.trk{display:inline-flex;white-space:nowrap;animation:mq linear infinite}.si{padding-right:80px}
+.fb{display:block;text-align:center;background:var(--card2);border-radius:12px;padding:11px;color:var(--tx);cursor:pointer;margin:4px 0 12px;font-weight:600}
+#viewer{color:#f4f6fb;position:fixed;inset:0;z-index:9;background:rgba(0,0,0,.88);display:none;padding:16px;overflow:auto;animation:fd .2s}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:3;background:var(--glass);-webkit-backdrop-filter:saturate(1.8) blur(22px);backdrop-filter:saturate(1.8) blur(22px);border-top:1px solid var(--line);display:flex;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;color:var(--mu);border-radius:14px;padding:6px 2px;font-size:11px;font-weight:600;min-height:50px}
+nav svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s var(--ease)}
+nav button.on{color:var(--ac)}nav button.on svg{transform:translateY(-1px) scale(1.12)}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;z-index:5;animation:fd .22s}
+.sheet>div{position:relative;background:var(--card);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:28px 28px 0 0;padding:26px 18px calc(20px + env(safe-area-inset-bottom,0px));animation:up .42s var(--ease)}
+.sheet>div::before{content:"";position:absolute;top:8px;left:50%;width:38px;height:5px;margin-left:-19px;border-radius:5px;background:var(--line)}
+.stk{position:sticky;bottom:-20px;margin:12px -18px -20px;padding:12px 18px calc(18px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line)}
+.wm{text-align:center;color:var(--mu);opacity:.55;font-size:12px;font-weight:600;letter-spacing:.02em;margin:40px 0 0;user-select:none}
+.up{color:var(--ok)}.dn{color:var(--bad)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#warn{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;display:none;background:var(--bad);color:#fff;padding:9px 12px;font-size:13px;font-weight:600;text-align:center}
+@keyframes fd{from{opacity:0}}
+@keyframes up{from{transform:translateY(100%)}}
+@keyframes rg{from{stroke-dashoffset:327}}
+@keyframes gw{from{width:0}}
+@keyframes mq{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
+</style></head>
+<body><div id="warn" role="alert"></div><div id="strip"></div><main id="app"></main><div id="viewer" onclick="if(event.target===this)closeView()"></div><nav id="nav"></nav><div id="sheet"></div>
+<script>
+const K='studytracker_v1';
+const iso=d=>{const x=new Date(d);return new Date(x-x.getTimezoneOffset()*6e4).toISOString().slice(0,10)};
+const T=()=>iso(Date.now());
+const addD=(s,n)=>{const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+n);return iso(d)};
+const diffD=(a,b)=>Math.round((new Date(a+'T12:00:00')-new Date(b+'T12:00:00'))/864e5);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const STREAMS={Commerce:['Business Studies','Accountancy','Economics'],Arts:['Economics','History','Political Science','Geography']};
+let S,loadErr=0,saveBad=0;
+function norm(o){o=o&&typeof o==='object'?o:{};const dt=x=>typeof x==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x)?x:null,st=STREAMS[o.stream]?o.stream:'Commerce',obj=x=>x&&typeof x==='object'&&!Array.isArray(x)?x:{};
+ const tp=(Array.isArray(o.topics)?o.topics:[]).filter(t=>t&&typeof t==='object'&&t.id&&t.name).map(t=>({id:String(t.id).replace(/[^\w-]/g,'_'),subj:String(t.subj||''),ch:String(t.ch||'General'),name:String(t.name),diff:['Easy','Medium','Hard'].includes(t.diff)?t.diff:'Medium',imp:!!t.imp,studied:!!t.studied,stage:Math.max(0,+t.stage||0),last:dt(t.last),due:dt(t.due),notes:String(t.notes||''),
+  qs:(Array.isArray(t.qs)?t.qs:[]).filter(q=>q&&q.id&&((q.type==='text'||q.type==='link')?typeof q.v==='string':(q.type==='img'||q.type==='pdf'))).map(q=>({...q,id:String(q.id).replace(/[^\w-]/g,'_')})),
+  logs:(Array.isArray(t.logs)?t.logs:[]).filter(l=>l&&dt(l.d)).map(l=>({d:l.d,h:+l.h||0,self:+l.self||0,quiz:(l.quiz===null||l.quiz===undefined||l.quiz==='')?null:+l.quiz}))}));
+ tp.forEach(t=>{if(t.studied){if(!t.last)t.last=(t.logs.length&&t.logs[t.logs.length-1].d)||T();if(!t.due)t.due=addD(t.last,ivl(t))}});
+ return{stream:st,subs:STREAMS[st],topics:tp,hours:Object.fromEntries(Object.entries(obj(o.hours)).filter(([k,v])=>dt(k)&&+v>0).map(([k,v])=>[k,+v])),goal:Math.max(.5,+o.goal||3),exam:Object.fromEntries(Object.entries(obj(o.exam)).filter(([k,v])=>dt(v))),done:obj(o.done)}}
+let r0=null,noStore=0;try{r0=localStorage.getItem(K)}catch(e){noStore=1}
+try{S=norm(r0?JSON.parse(r0):{})}catch(e){loadErr=1;S=norm({});try{localStorage.setItem(K+'_bad',r0)}catch(x){}}
+const vt=()=>S.topics.filter(t=>S.subs.includes(t.subj));
+const warn=m=>{const e=document.getElementById('warn');if(!e)return;e.textContent=m||'';e.style.display=m?'block':'none'};
+const save=()=>{if(loadErr)return;try{mirror()}catch(e){}try{localStorage.setItem(K,JSON.stringify(S));if(saveBad){saveBad=0;warn('')}}catch(e){saveBad=1;warn('Could not save. Storage is blocked or full. Copy a backup from More now.')}};
+let WM=noStore?'Storage is blocked here, so nothing will be saved. Open this file in Chrome or use the installed app.':loadErr?'Your saved data could not be read, so changes are not being saved. Restore a backup in More.':'';
+warn(WM);
+window.addEventListener('error',e=>warn('Error: '+(e.message||'unknown')));
+let armed=null;function twice(k){if(armed===k){armed=null;warn(WM);return true}armed=k;warn('Tap delete again to confirm');setTimeout(()=>{if(armed===k){armed=null;warn(WM)}},3000);return false}
+function setStream(v){if(!STREAMS[v])return;S.stream=v;S.subs=STREAMS[v];rvS=null;rvI=null;save();render()}
+let tab='today',logId=null;
+const LB='studytracker_lb';
+// 4 backup nudge
+const lbDays=()=>{try{const v=localStorage.getItem(LB);return v?diffD(T(),v):null}catch(e){return null}};
+const lbText=()=>{const n=lbDays();return n===null?'No backup made yet.':n===0?'Last backup: today.':'Last backup: '+n+' days ago.'};
+function bkNudge(){const n=lbDays();if(!S.topics.length||(n!==null&&n<7))return '';return `<div class="card row"><div><b>Back up your data</b><div class="mu">${lbText()}</div></div><button onclick="tab='more';render()">Back up</button></div>`}
+const $=id=>document.getElementById(id);
+
+// Adaptive revision: base gap grows with each good review, shrinks for hard or important topics
+function ivl(t){const b=[1,3,7,21,45][Math.min(t.stage,4)];let f=1;if(t.diff==='Hard')f*=.6;if(t.diff==='Easy')f*=1.5;if(t.imp)f*=.7;return Math.max(1,Math.round(b*f))}
+function sc(l){const a=[];if(l.self)a.push(l.self/5);if(l.quiz!==null&&l.quiz!==undefined&&l.quiz!=='')a.push(l.quiz/100);return a.length?a.reduce((x,y)=>x+y)/a.length:null}
+function logStudy(t,h,self,quiz){
+  const l={d:T(),h,self,quiz};t.logs.push(l);
+  if(h)S.hours[T()]=(S.hours[T()]||0)+h;
+  const p=sc(l);
+  if(!t.studied){t.studied=true;t.stage=0}
+  else if(p===null||p>=.5)t.stage++;else t.stage=0;
+  t.last=T();t.due=addD(T(),ivl(t));save();
+}
+function chips(t){return (t.diff==='Hard'?'<span class="chip">Hard</span>':'')+(t.imp?'<span class="chip i">Important</span>':'')+(t.studied?`<span class="chip">Revise ${t.due<=T()?'today':'on '+t.due}</span>`:'<span class="chip">Not studied yet</span>')}
+function row(t,extra){return `<div class="card row"><div><b>${esc(t.name)}</b><div class="mu">${esc(t.subj)}, ${esc(t.ch)}${extra||''}</div>${chips(t)}</div><button onclick="openLog('${t.id}')">Log</button></div>`}
+
+const ready=t=>{if(!t.studied)return 0;const a=t.logs.map(sc).filter(x=>x!==null),b=a.length?a[a.length-1]:.6;return Math.max(0,b-Math.max(0,diffD(T(),t.due))*.04)};
+function streak(){let n=0,d=T();if(!S.hours[d])d=addD(d,-1);while(S.hours[d]>0){n++;d=addD(d,-1)}return n}
+function del(k,id){S[k]=S[k].filter(x=>x.id!==id);save();render()}
+const ckey=(s,c)=>s+'|'+c;
+function togDone(k){k=decodeURIComponent(k);S.done[k]=!S.done[k];save();render()}
+let openSyl={};
+function syl(){return S.subs.map(s=>{
+ const base=(SYL[s]||[]),extra=[...new Set(S.topics.filter(t=>t.subj===s&&!base.includes(t.ch)).map(t=>t.ch))],all=base.concat(extra),
+ dn=all.filter(c=>S.done[ckey(s,c)]).length,tp=S.topics.filter(t=>t.subj===s),st=tp.filter(t=>t.studied),rd=st.length?st.reduce((a,t)=>a+ready(t),0)/st.length:null;
+ return `<div class="card"><div class="row"><b>${esc(s)}</b><span class="mu">${dn} of ${all.length} chapters complete</span></div><div class="bar"><i style="width:${all.length?dn/all.length*100:0}%;background:var(--ok)"></i></div>
+ <div class="mu" style="margin-top:8px">${st.length} of ${tp.length} added topics studied${rd===null?'':', average readiness '+Math.round(rd*100)+'%'}</div>
+ <details ${openSyl[s]?'open':''} ontoggle="openSyl['${esc(s)}']=this.open" style="margin-top:8px"><summary class="mu">Chapters</summary>${all.map(c=>{const l=tp.filter(t=>t.ch===c),ls=l.filter(t=>t.studied),r=ls.length?Math.round(ls.reduce((a,t)=>a+ready(t),0)/ls.length*100):null,d=S.done[ckey(s,c)];
+ return `<div class="row" style="padding:8px 0;border-top:1px solid var(--line)"><div><div>${esc(c)}</div><div class="mu">${ls.length} of ${l.length} topics studied${r===null?'':', readiness '+r+'%'}</div></div><button class="${d?'':'g'}" style="padding:4px 10px" onclick="togDone('${encodeURIComponent(ckey(s,c)).replace(/'/g,'%27')}')">${d?'Done':'Mark done'}</button></div>`}).join('')}</details></div>`}).join('')}
+let stripList=[];
+function strip(){const ex=S.subs.map(s=>[s,S.exam[s]]).filter(x=>x[1]&&x[1]>=T()).sort((a,b)=>a[1]<b[1]?-1:1),el=$('strip');
+ if(!ex.length){el.style.display='none';stripList=[];return}
+ const l=ex.map(([s,d])=>{const n=diffD(d,T());return `${s} exam: ${n===0?'today':n===1?'1 day remaining':n+' days remaining'}`});
+ el.style.display='block';
+ if(l.join('|')!==stripList.join('|')){stripList=l;
+  const px=l.reduce((a,x)=>a+x.length*7+80,0),k=Math.max(1,Math.ceil(420/px)),half=l.map(x=>`<span class="si">${esc(x)}</span>`).join('').repeat(k);
+  el.innerHTML=`<div class="trk" style="animation-duration:${Math.max(8,Math.round(px*k/45))}s">${half+half}</div>`}}
+setInterval(strip,60000);
+let calM=0,selD=null;
+function dayInfo(d){const L=[];S.topics.forEach(t=>t.logs.forEach((l,i)=>{if(l.d===d)L.push({t,l,rev:i>0})}));return L}
+function cal(){
+ const n0=new Date(),f=new Date(n0.getFullYear(),n0.getMonth()+calM,1),y=f.getFullYear(),m=f.getMonth(),n=new Date(y,m+1,0).getDate(),ex=S.subs.map(s=>S.exam[s]),dd=selD||T();
+ let c='',tot=0,sd=0,hit=0,bh=0;
+ for(let i=0;i<f.getDay();i++)c+='<span></span>';
+ for(let d=1;d<=n;d++){const k=iso(new Date(y,m,d,12)),h=S.hours[k]||0,r=h/S.goal;
+  if(h>0){tot+=h;sd++;if(r>=1)hit++;bh=Math.max(bh,h)}
+  c+=`<button aria-label="${k}, ${+h.toFixed(1)} hours studied" aria-pressed="${k===dd}" onclick="selD='${k}';render()" style="padding:0;aspect-ratio:1;border-radius:8px;font-size:13px;background:${!h?'var(--line)':r<.5?'#4a5a8a':r<1?'#8fa8ff':'#5cc79a'};color:${h?(r<.5?'#fff':'#0d1020'):'var(--mu)'};${k===T()?'outline:2px solid var(--tx);':''}${k===dd?'box-shadow:0 0 0 2px var(--ac);':''}${ex.includes(k)?'border:2px solid var(--warn);':''}">${d}</button>`}
+ const L=dayInfo(dd),dh=S.hours[dd]||0,bs={};L.forEach(x=>bs[x.t.subj]=(bs[x.t.subj]||0)+(x.l.h||0));
+ const nw=L.filter(x=>!x.rev),rv=L.filter(x=>x.rev),li=a=>a.map(x=>`<div class="mu">${esc(x.t.name)} (${esc(x.t.subj)})</div>`).join('')||'<div class="mu">None</div>';
+ const box=(v,l)=>`<div class="card"><div class="big">${v}</div><div class="mu">${l}</div></div>`;
+ return `<div class="card"><div class="row"><button class="g" onclick="calM--;render()">Prev</button><b style="white-space:nowrap">${f.toLocaleString('default',{month:'long',year:'numeric'})}</b><button class="g" onclick="calM++;render()">Next</button></div>
+ <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:12px">${'SMTWTFS'.split('').map(x=>`<span class="mu" style="text-align:center">${x}</span>`).join('')}${c}</div>
+ <div class="mu" style="margin-top:10px">Grey: none. Dark blue: under half your goal. Light blue: over half. Green: goal met. Yellow ring: exam day.</div></div>
+ <div class="two">${box(+tot.toFixed(1)+'h','studied this month')}${box(sd,'days studied')}${box(hit,'days goal met')}${box(+bh.toFixed(1)+'h','best day')}</div>
+ <div class="card"><b>${new Date(dd+'T12:00:00').toDateString()}</b><div class="mu">${+dh.toFixed(2)}h of ${S.goal}h goal</div>
+ <div style="margin-top:8px"><b>Subjects</b>${Object.keys(bs).map(k=>`<div class="mu">${esc(k)}: ${+bs[k].toFixed(2)}h</div>`).join('')||'<div class="mu">None</div>'}</div>
+ <div style="margin-top:8px"><b>New topics (${nw.length})</b>${li(nw)}</div><div style="margin-top:8px"><b>Revised (${rv.length})</b>${li(rv)}</div>
+ </div>`}
+const idb=new Promise(r=>{try{const q=indexedDB.open('studyfiles',1);q.onupgradeneeded=()=>q.result.createObjectStore('f');q.onsuccess=()=>r(q.result);q.onerror=()=>r(null)}catch(e){r(null)}});
+const fput=(k,v)=>idb.then(d=>d?new Promise(r=>{const x=d.transaction('f','readwrite').objectStore('f').put(v,k);x.onsuccess=()=>r(1);x.onerror=()=>r(0)}):0);
+const fget=k=>idb.then(d=>d?new Promise(r=>{const x=d.transaction('f').objectStore('f').get(k);x.onsuccess=()=>r(x.result);x.onerror=()=>r(null)}):null);
+const fdel=k=>idb.then(d=>{if(d)d.transaction('f','readwrite').objectStore('f').delete(k)});
+const curT=()=>S.topics.find(x=>x.id===logId);
+let draft=null;
+function qHtml(t,ro,l){const N={img:'Photo',pdf:'PDF',link:'Link',text:'Text'};return (l||t.qs||[]).map(q=>`<div class="row" style="margin:6px 0;gap:8px"><span class="mu" style="overflow:hidden;text-overflow:ellipsis;min-width:0">${N[q.type]}: ${esc(q.type==='text'||q.type==='link'?q.v.slice(0,60):q.name)}</span><span style="white-space:nowrap"><button class="g" style="padding:2px 8px" onclick="viewQ('${q.id}','${ro?t.id:''}')">View</button>${ro?'':` <button class="d" style="padding:2px 8px" onclick="delQ('${q.id}')">X</button>`}</span></div>`).join('')||'<div class="mu">Nothing saved yet.</div>'}
+const drawQs=()=>{const e=$('qs'),t=curT();if(e&&t&&draft)e.innerHTML=qHtml(t,0,draft.qs)};
+const qmsg=m=>{const e=$('qm');if(e)e.textContent=m};
+function addQtext(){const v=$('qt').value.trim();if(!v||!draft)return;draft.qs.push({id:'q'+Date.now(),type:/^https?:\/\/\S+$/i.test(v)?'link':'text',v});$('qt').value='';drawQs()}
+function addQfile(inp){const f=inp.files[0];if(!f||!draft)return;
+ if(f.size>15e6){qmsg('File is over 15 MB, too large.');inp.value='';return}
+ const d=draft,id='q'+Date.now(),ty=(f.type==='application/pdf'||/\.pdf$/i.test(f.name))?'pdf':'img';
+ fput(id,f).then(ok=>{if(!ok){qmsg('Could not store this file in your browser.');return}
+  if(draft!==d){fdel(id);return}
+  d.new.push(id);d.qs.push({id,type:ty,name:f.name});qmsg('');drawQs();if(ty==='pdf'&&FS)toFolder(f.name,f).then(m=>{if(/Could not/.test(m))qmsg(m)})});
+ inp.value=''}
+function delQ(id){if(!draft)return;const q=draft.qs.find(x=>x.id===id);draft.qs=draft.qs.filter(x=>x.id!==id);if(q&&(q.type==='img'||q.type==='pdf'))draft.del.push(id);drawQs()}
+function commitDraft(t){if(!draft)return;t.qs=draft.qs;draft.del.forEach(fdel);draft=null}
+function dropDraft(){if(draft)draft.new.forEach(fdel);draft=null}
+const fclear=()=>idb.then(d=>{if(d)d.transaction('f','readwrite').objectStore('f').clear()});
+const fall=()=>idb.then(d=>d?new Promise(r=>{const o={},x=d.transaction('f').objectStore('f').openCursor();x.onsuccess=()=>{const c=x.result;if(c){o[c.key]=c.value;c.continue()}else r(o)};x.onerror=()=>r(o)}):{});
+const b2d=b=>new Promise(r=>{if(typeof b==='string')return r(b);const fr=new FileReader();fr.onload=()=>r(fr.result);fr.onerror=()=>r(null);fr.readAsDataURL(b)});
+async function exportAll(){const m=$('bm');try{m.textContent='Preparing...';const fs=await fall(),ff={};for(const k in fs){const x=await b2d(fs[k]);if(x)ff[k]=x}
+ const bl=new Blob([JSON.stringify({app:'studytracker',data:S,files:ff})],{type:'application/json'}),u=URL.createObjectURL(bl),a=document.createElement('a');a.href=u;a.download='study-tracker-backup-'+T()+'.json';document.body.appendChild(a);if(FS){m.textContent=await toFolder(a.download,bl)}else{a.click()}a.remove();setTimeout(()=>URL.revokeObjectURL(u),30000);try{localStorage.setItem(LB,T())}catch(x){}m.textContent=(FS?m.textContent+' ':'')+'Backup file created ('+Object.keys(ff).length+' files included).'}catch(e){m.textContent='Could not create the backup file.'}}
+function importAll(inp){const f=inp.files[0];if(!f)return;const m=$('bm'),r=new FileReader();r.onload=async()=>{try{const o=JSON.parse(r.result),dt=o.data||o;if(!dt||!Array.isArray(dt.topics))throw 0;S=norm(dt);loadErr=0;warn('');const fs=o.files||{};for(const k in fs){try{await fput(k,d2b(fs[k]))}catch(e){}}save();tab='today';render()}catch(e){m.textContent='That file could not be read as a backup.'}};r.readAsText(f);inp.value=''}
+async function copyBk(){const e=$('bk');e.focus();e.select();e.setSelectionRange(0,e.value.length);let ok=0;try{await navigator.clipboard.writeText(e.value);ok=1}catch(x){try{ok=document.execCommand('copy')}catch(y){}}const b=$('cpb');if(b){b.textContent=ok?'Copied':'Hold and copy';setTimeout(()=>{if($('cpb'))$('cpb').textContent='Copy'},2500)}}
+function d2b(d){const a=d.split(','),m=a[0].match(/:(.*?);/)[1],x=atob(a[1]),u=new Uint8Array(x.length);for(let i=0;i<x.length;i++)u[i]=x.charCodeAt(i);return new Blob([u],{type:m})}
+const FS=window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform()&&window.Capacitor.Plugins.Filesystem;
+const sfn=n=>String(n||'file.pdf').replace(/[^\w.\- ]/g,'_');
+async function toFolder(name,blob){if(!FS)return '';try{try{await FS.requestPermissions()}catch(e){}const d=await b2d(blob);await FS.writeFile({path:'StudyTracker/'+sfn(name),data:d.split(',')[1],directory:'DOCUMENTS',recursive:true});return 'Saved to Documents/StudyTracker/'+sfn(name)}catch(e){return 'Could not save a copy to Documents/StudyTracker'}}
+async function openNative(id,name){try{let d=await fget(id);if(typeof d==='string')d=d2b(d);if(d)await toFolder(name,d);const r=await FS.getUri({path:'StudyTracker/'+sfn(name),directory:'DOCUMENTS'});await window.Capacitor.Plugins.FileOpener.open({filePath:r.uri,contentType:'application/pdf'})}catch(e){alert('Could not open the PDF. Find it in Documents/StudyTracker.')}}
+const DF='StudyTracker/study-tracker-data.json';let mt=null;
+function mirror(){if(!FS)return;clearTimeout(mt);mt=setTimeout(async()=>{try{await FS.writeFile({path:DF,data:JSON.stringify(S),directory:'DOCUMENTS',encoding:'utf8',recursive:true})}catch(e){}},500)}
+if(FS&&!r0&&!loadErr){(async()=>{try{try{await FS.requestPermissions()}catch(e){}const r=await FS.readFile({path:DF,directory:'DOCUMENTS',encoding:'utf8'}),o=JSON.parse(r.data);if(o&&Array.isArray(o.topics)){S=norm(o);save();render()}}catch(e){}})()}
+let viewUrl=null;
+function closeView(){if(viewUrl){URL.revokeObjectURL(viewUrl);viewUrl=null}$('viewer').style.display='none'}
+async function viewQ(id,tid){const t=tid?S.topics.find(x=>x.id===tid):curT();if(!t)return;const q=((!tid&&draft)?draft.qs:t.qs).find(x=>x.id===id);if(!q)return;const v=$('viewer');let h='';
+ if(q.type==='text')h=`<div style="white-space:pre-wrap">${esc(q.v)}</div>`;
+ else if(q.type==='link')h=`<a style="color:#9db2ff;word-break:break-all" href="${esc(q.v)}" target="_blank" rel="noopener noreferrer">${esc(q.v)}</a>`;
+ else{let d=await fget(id);
+  if(typeof d==='string'){try{d=d2b(d)}catch(e){d=null}}
+  if(!d)h='<div>This file is missing. Use the full backup file (More) to keep photos and PDFs.</div>';
+  else{const u=URL.createObjectURL(d);
+   if(q.type==='img'){viewUrl=u;h=`<img src="${u}" style="max-width:100%">`}
+   else if(FS){h=`<button style="width:100%" onclick="openNative('${id}','${sfn(q.name)}')">Open PDF</button>`}else{const mob=/iPhone|iPad|Android/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform)),bs='display:block;text-align:center;border-radius:8px;padding:12px;font-weight:600;text-decoration:none;margin-bottom:10px;';
+    h=`<a style="${bs}background:var(--ac);color:var(--on)" href="${u}" target="_blank" rel="noopener">Open PDF</a><a style="${bs}border:1px solid rgba(255,255,255,.3);color:#fff" href="${u}" download="${esc(q.name||'file.pdf')}">Save PDF to phone</a>`+(mob?'':`<iframe src="${u}" style="width:100%;height:70vh;border:0;background:#fff"></iframe>`)}}}
+ v.innerHTML=h+'<button class="g" style="margin-top:14px;width:100%" onclick="closeView()">Close</button>';v.style.display='block'}
+let rvS=null,rvI=null;
+function revCard(t){return `<div class="card"><div class="row"><b>${esc(t.name)}</b><button style="padding:4px 10px" onclick="openLog('${t.id}')">Log</button></div>${chips(t)}
+ ${t.notes?`<div class="mu" style="white-space:pre-wrap;margin-top:8px">${esc(t.notes)}</div>`:''}
+ <div style="margin-top:10px"><b>Important questions (${(t.qs||[]).length})</b>${qHtml(t,1)}</div></div>`}
+function revise(){
+ if(!S.subs.includes(rvS))rvS=S.subs[0];
+ const base=(SYL[rvS]||[]),tp=S.topics.filter(t=>t.subj===rvS),all=base.concat([...new Set(tp.filter(t=>!base.includes(t.ch)).map(t=>t.ch))]),cnt=c=>tp.filter(t=>t.ch===c).length;
+ if(rvI===null||rvI>=all.length){const f=all.findIndex(c=>cnt(c)>0);rvI=f<0?0:f}
+ const c=all[rvI]||'',l=tp.filter(t=>t.ch===c),ls=l.filter(t=>t.studied),un=l.filter(t=>!t.studied);
+ return `<h1>Revise</h1><div class="card" style="margin-top:14px"><label>Subject</label><select onchange="rvS=this.value;rvI=null;render()">${S.subs.map(x=>`<option ${x===rvS?'selected':''}>${esc(x)}</option>`).join('')}</select>
+ <label>Chapter</label><select style="margin-bottom:0" onchange="rvI=+this.value;render()">${all.map((x,i)=>`<option value="${i}" ${i===rvI?'selected':''}>Ch ${i+1}: ${esc(x)} (${cnt(x)})</option>`).join('')}</select></div>
+ ${ls.length?ls.map(revCard).join(''):'<div class="card mu">No topics logged in this chapter yet.</div>'}
+ ${un.length?'<h2>Added but not studied yet</h2>'+un.map(revCard).join(''):''}`}
+function today(){
+  const h=S.hours[T()]||0,p=Math.min(100,h/S.goal*100),tt=vt(),st=streak();
+  const due=tt.filter(t=>t.studied&&t.due<=T()).sort((a,b)=>a.due<b.due?-1:1),od=due.filter(t=>t.due<T()).length;
+  const ns=tt.filter(t=>!t.studied),pace={};S.subs.forEach(x=>{const e=S.exam[x],d=e&&e>=T()?Math.max(1,diffD(e,T())):60;pace[x]=ns.filter(t=>t.subj===x).length/d});ns.sort((a,b)=>(pace[b.subj]-pace[a.subj])||(b.imp-a.imp)||((b.diff==='Hard')-(a.diff==='Hard')));
+  const left=S.subs.map(s=>S.exam[s]).filter(d=>d&&d>=T()).map(d=>diffD(d,T()));
+  const pt2=Object.values(pace).reduce((a,b)=>a+b,0),q=Math.min(8,Math.max(2,Math.ceil(pt2)));
+  const weak=tt.filter(t=>t.studied&&ready(t)<.55).sort((a,b)=>ready(a)-ready(b)).slice(0,5);
+  return `<h1>Today</h1><div class="mu">${new Date().toDateString()}${left.length?`, nearest exam in ${Math.min(...left)} days`:''}</div>
+  <div class="card hero"><div class="rw"><svg class="ring" viewBox="0 0 120 120"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--ac)"/><stop offset="1" style="stop-color:var(--ac2)"/></linearGradient></defs><circle class="rt" cx="60" cy="60" r="52"/><circle class="rf" cx="60" cy="60" r="52" style="stroke-dashoffset:${(327*(1-p/100)).toFixed(1)}"/></svg><div class="hc"><div class="big">${+h.toFixed(2)}</div><div class="mu">hours</div></div></div><div style="flex:1;min-width:0"><div class="hs">${st?st+'-day streak':'Start a streak today'}</div><div class="mu" style="margin:2px 0 12px">Goal: ${S.goal}h a day</div><input type="number" min="0.5" step="0.5" value="${S.goal}" aria-label="Daily goal in hours" style="margin:0" onchange="S.goal=Math.max(.5,+this.value||3);save();render()"></div></div>
+  ${od>=3?`<div class="card" style="border-color:var(--bad)"><b>${od} revisions are overdue</b><div class="mu">Clear the oldest first. Overdue topics lose readiness every day.</div></div>`:''}
+  ${bkNudge()}<h2>Revise today (${due.length})</h2>
+  ${due.length?due.map(t=>row(t,t.due<T()?`, ${diffD(T(),t.due)} days overdue`:'')).join(''):'<div class="card mu">Nothing due. Log a topic you studied and its revision dates will appear here.</div>'}
+  <h2>Learn next</h2>${ns.slice(0,q).map(t=>row(t)).join('')||'<div class="card mu">Add topics in Topics to get a daily plan.</div>'}
+  ${weak.length?'<h2>Weak spots</h2>'+weak.map(t=>row(t,`, readiness ${Math.round(ready(t)*100)}%`)).join(''):''}`
+}
+function restore(){try{const o=JSON.parse($('bk').value);if(!o||!Array.isArray(o.topics))throw 0;S=norm(o);loadErr=0;warn('');save();tab='today';render()}catch(e){$('bk').style.borderColor='var(--bad)'}}
+let rs=0;
+function resetAll(){const b=$('rst');if(!rs){rs=1;b.textContent='Tap again to erase everything';setTimeout(()=>{rs=0;if($('rst'))$('rst').textContent='Reset everything'},4000);return}
+rs=0;S=norm({stream:S.stream});fclear();save();tab='today';render()}
+function more(){return `<h1>More</h1><h2>Your stream (Class 12)</h2><div class="card"><select onchange="setStream(this.value)">${Object.keys(STREAMS).map(k=>`<option ${S.stream===k?'selected':''}>${k}</option>`).join('')}</select><div class="mu">Commerce: Business Studies, Accountancy, Economics. Arts: Economics, History, Political Science, Geography. Topics from the other stream are kept, just hidden.</div></div><h2>Exam dates</h2><div class="card">${S.subs.map(s=>`<label>${esc(s)}</label><input type="date" value="${esc(S.exam[s]||'')}" onchange="S.exam['${esc(s)}']=this.value;save();strip()">`).join('')}<div class="mu">Your daily plan spreads unstudied topics across the days left before the nearest exam.</div></div>
+<h2>Backup</h2><div class="mu" style="margin-bottom:8px">${lbText()}</div>${FS?'<div class="mu" style="margin-bottom:8px">Your data is also auto-saved on this phone in Documents/StudyTracker.</div>':''}<div class="card"><b>Full backup (with photos and PDFs)</b><div class="mu" style="margin:4px 0 8px">Saves one file to your phone. Restoring it brings back everything, including files.</div><div class="two"><button onclick="exportAll()">Download backup</button><label class="fb" style="margin:0;padding:8px">Restore file<input type="file" accept=".json,application/json" hidden onchange="importAll(this)"></label></div><div id="bm" class="mu" style="margin-top:8px"></div></div>
+<div class="card"><b>Text backup (no files)</b><div class="mu" style="margin:4px 0 8px">Copy this text to keep it safe. Paste it here later to restore topics, logs and dates.</div><textarea id="bk" rows="4">${esc(JSON.stringify(S))}</textarea><div class="two"><button onclick="restore()">Restore from text</button><button id="cpb" class="g" onclick="copyBk()">Copy</button></div></div>
+<h2>Reset</h2><div class="card"><div class="mu" style="margin-bottom:8px">Erases all topics, logs, scores and dates on this device. Copy a backup first if you want to keep them.</div><button id="rst" class="d" style="width:100%" onclick="resetAll()">Reset everything</button></div>
+<h2>Install</h2><div class="card mu">Open this page in your phone browser and choose Add to Home Screen to use it like an app.</div>`}
+const SYL={
+'Business Studies':['Nature and Significance of Management','Principles of Management','Business Environment','Planning','Organising','Staffing','Directing','Controlling','Financial Management','Financial Markets','Marketing Management','Consumer Protection'],
+'Accountancy':['Accounting for Not-for-Profit Organisations','Accounting for Partnership Firms: Fundamentals','Goodwill','Change in Profit Sharing Ratio','Admission of a Partner','Retirement/Death of a Partner','Dissolution of a Partnership Firm','Accounting for Share Capital','Issue and Redemption of Debentures','Financial Statements of a Company','Analysis of Financial Statements','Accounting Ratios','Cash Flow Statement'],
+'Economics':['Indian Economy: Indian Economy on the Eve of Independence','Indian Economy: Indian Economy 1950-1990','Indian Economy: Liberalisation, Privatisation and Globalisation: An Appraisal','Indian Economy: Poverty','Indian Economy: Human Capital Formation in India','Indian Economy: Rural Development','Indian Economy: Employment: Growth, Informalisation and Other Issues','Indian Economy: Infrastructure','Indian Economy: Environment and Sustainable Development','Indian Economy: Comparative Development Experiences of India and its Neighbours','Macro: Introduction','Macro: National Income and Related Aggregates','Macro: Money and Banking','Macro: Determination of Income and Employment','Macro: Government Budget and the Economy','Macro: Open Economy Macroeconomics'],
+'History':['Bricks, Beads and Bones','Kings, Farmers and Towns','Kinship, Caste and Class','Thinkers, Beliefs and Buildings','Through the Eyes of Travellers','Bhakti-Sufi Traditions','An Imperial Capital: Vijayanagara','Peasants, Zamindars and the State','Kings and Chronicles: The Mughal Courts','Colonialism and the Countryside','Rebels and the Raj','Colonial Cities','Mahatma Gandhi and the Nationalist Movement','Understanding Partition','Framing the Constitution'],
+'Political Science':['World Politics: The Cold War Era','World Politics: The End of Bipolarity','World Politics: US Hegemony in World Politics','World Politics: Alternative Centres of Power','World Politics: Contemporary South Asia','World Politics: International Organisations','World Politics: Security in the Contemporary World','World Politics: Environment and Natural Resources','World Politics: Globalisation','India Politics: Challenges of Nation Building','India Politics: Era of One-Party Dominance','India Politics: Politics of Planned Development','India Politics: External Relations of India','India Politics: Challenges to and Restoration of the Congress System','India Politics: The Crisis of Democratic Order','India Politics: Rise of Popular Movements','India Politics: Regional Aspirations','India Politics: Recent Developments in Indian Politics'],
+'Geography':['Human Geo: Human Geography: Nature and Scope','Human Geo: The World Population','Human Geo: Population Composition','Human Geo: Human Development','Human Geo: Primary Activities','Human Geo: Secondary Activities','Human Geo: Tertiary and Quaternary Activities','Human Geo: Transport and Communication','Human Geo: International Trade','Human Geo: Human Settlements','India: Population','India: Migration','India: Human Development','India: Human Settlements','India: Land Resources and Agriculture','India: Water Resources','India: Mineral and Energy Resources','India: Manufacturing Industries','India: Planning and Sustainable Development in Indian Context','India: Transport and Communication','India: International Trade','India: Geographical Perspective on Selected Issues and Problems']};
+function chapOpts(s){const l=(SYL[s]||[]);return l.map((n,i)=>`<option value="${esc(n)}">Ch ${i+1}: ${esc(n)}</option>`).join('')+'<option value="__c">Other (type my own)</option>'}
+function topics(){
+  const opt=S.subs.map(s=>`<option>${esc(s)}</option>`).join('');
+  return `<h1>Topics</h1>
+  <div class="card" style="margin-top:14px"><label>Subject</label><select id="fs" onchange="$('fc').innerHTML=chapOpts(this.value);$('fcx').style.display='none'">${opt}</select>
+  <label>Chapter</label><select id="fc" onchange="$('fcx').style.display=this.value==='__c'?'block':'none'">${chapOpts(S.subs[0])}</select><input id="fcx" placeholder="Type chapter name" style="display:none">
+  <label>Topic</label><input id="fn" placeholder="e.g. Features of business">
+  <div class="two"><div><label>Difficulty</label><select id="fd"><option>Easy</option><option selected>Medium</option><option>Hard</option></select></div>
+  <div><label>Importance</label><select id="fi"><option value="">Normal</option><option value="1">Important</option></select></div></div>
+  <button onclick="addTopic()" style="width:100%">Add topic</button></div>
+  ${S.subs.map(s=>{const l=S.topics.filter(t=>t.subj===s);return l.length?`<h2>${esc(s)}</h2>`+l.map(t=>row(t)).join(''):''}).join('')||'<div class="card mu">No topics yet. Add your first one above.</div>'}`
+}
+function addTopic(){
+  const n=$('fn').value.trim();if(!n){$('fn').focus();return}
+  S.topics.push({id:'t'+Date.now(),subj:$('fs').value,ch:($('fc').value==='__c'?$('fcx').value.trim():$('fc').value)||'General',name:n,diff:$('fd').value,imp:!!$('fi').value,studied:false,stage:0,last:null,due:null,notes:'',qs:[],logs:[]});
+  save();render();
+}
+function openLog(id){document.body.style.overflow='hidden';dropDraft();logId=id;const t=S.topics.find(x=>x.id===id);draft={qs:(t.qs||[]).slice(),new:[],del:[]};const o=(a,v)=>a.map(x=>`<option ${x==v?'selected':''}>${x}</option>`).join('');
+  $('sheet').innerHTML=`<div class="sheet" onclick="if(event.target===this)closeLog()"><div style="max-height:92vh;overflow:auto">
+  <b>${esc(t.name)}</b><div class="mu" style="margin-bottom:12px">${t.studied?'Log a revision':'Log your first study session'}</div>
+  <div class="two"><div><label>Hours spent</label><input id="lh" type="number" min="0" step="0.25" value="0.5"></div>
+  <div><label>Confidence (1 to 5)</label><select id="ls">${o([1,2,3,4,5],3)}</select></div></div>
+  <label>Quiz score % (optional)</label><input id="lq" type="number" min="0" max="100" placeholder="e.g. 72">
+  <div class="two"><div><label>Difficulty</label><select id="ld">${o(['Easy','Medium','Hard'],t.diff)}</select></div>
+  <div><label>Importance</label><select id="li"><option value="">Normal</option><option value="1" ${t.imp?'selected':''}>Important</option></select></div></div>
+  <div id="lgs">${logsHtml(t)}</div><label>Notes, formulas or links</label><textarea id="ln" rows="3">${esc(t.notes||'')}</textarea>
+  <label>Important questions</label><div id="qs">${qHtml(t,0,draft.qs)}</div><div id="qm" class="mu" style="color:var(--bad)"></div>
+  <textarea id="qt" rows="2" placeholder="Paste a question or a link"></textarea><button class="g" style="width:100%;margin-bottom:10px" onclick="addQtext()">Add pasted question</button>
+  <div class="two"><label class="fb">Add photo<input type="file" accept="image/*" hidden onchange="addQfile(this)"></label><label class="fb">Add PDF<input type="file" accept="application/pdf,.pdf" hidden onchange="addQfile(this)"></label></div><div class="mu">Photos and PDFs are added only when you tap Save. Cancel discards them.${FS?' In the app, PDFs are also copied to Documents/StudyTracker.':''}</div>
+  <div class="stk"><div class="two"><button onclick="submitLog()">Save log</button><button class="g" onclick="saveEdit()">Save edits only</button></div>
+  <div class="two" style="margin-top:10px"><button class="g" onclick="closeLog()">Cancel</button><button class="d" onclick="delTopic()">Delete topic</button></div></div></div></div>`}
+function closeLog(){document.body.style.overflow='';dropDraft();$('sheet').innerHTML='';logId=null}
+function logsHtml(t){return t.logs.length?'<label>Past logs</label>'+t.logs.map((l,i)=>`<div class="row mu" style="margin:4px 0"><span>${esc(l.d)}: ${+l.h}h${l.self?', confidence '+l.self+'/5':''}${l.quiz!==null&&l.quiz!==undefined?', quiz '+l.quiz+'%':''}</span><button class="d" style="padding:2px 8px" onclick="delLog(${i})">X</button></div>`).join(''):''}
+function replay(t){t.studied=false;t.stage=0;t.last=null;t.due=null;t.logs.forEach(l=>{const p=sc(l);if(!t.studied){t.studied=true;t.stage=0}else if(p===null||p>=.5)t.stage++;else t.stage=0;t.last=l.d;t.due=addD(l.d,ivl(t))})}
+function unhours(l){if(l&&l.h){const v=Math.round(((S.hours[l.d]||0)-l.h)*1e4)/1e4;if(v>.0005)S.hours[l.d]=v;else delete S.hours[l.d]}}
+function delLog(i){const t=curT();if(!t||!twice('log'+i))return;const l=t.logs.splice(i,1)[0];unhours(l);replay(t);save();const e=$('lgs');if(e)e.innerHTML=logsHtml(t);render()}
+function applyEdit(t){t.diff=$('ld').value;t.imp=!!$('li').value;t.notes=$('ln').value;commitDraft(t)}
+function submitLog(){const t=S.topics.find(x=>x.id===logId),q=$('lq').value;applyEdit(t);logStudy(t,Math.max(0,+$('lh').value||0),+$('ls').value,q===''?null:Math.min(100,Math.max(0,+q)));closeLog();render()}
+function saveEdit(){const t=S.topics.find(x=>x.id===logId);applyEdit(t);if(t.studied)t.due=addD(t.last,ivl(t));save();closeLog();render()}
+function delTopic(){const t=curT();if(!t||!twice('topic'))return;(t.qs||[]).forEach(q=>{if(q.type==='img'||q.type==='pdf')fdel(q.id)});t.logs.forEach(l=>unhours(l));S.topics=S.topics.filter(x=>x.id!==logId);save();closeLog();render()}
+
+function chart(){
+  const days=[...Array(7)].map((_,i)=>addD(T(),i-6)),v=days.map(d=>S.hours[d]||0),m=Math.max(S.goal,...v,1),gy=100-S.goal/m*90;
+  let s=`<svg viewBox="0 0 300 126" width="100%" role="img" aria-label="Hours studied in the last 7 days"><line x1="0" x2="300" y1="${gy}" y2="${gy}" stroke="var(--warn)" stroke-dasharray="4 4"/>`;
+  v.forEach((x,i)=>{const h=x/m*90,cx=i*42+21;s+=`<rect x="${cx-13}" y="${100-h}" width="26" height="${h}" rx="4" fill="var(--ac)"/>`+(x?`<text x="${cx}" y="${95-h}" text-anchor="middle" font-size="9" fill="var(--mu)">${+x.toFixed(1)}</text>`:'')+`<text x="${cx}" y="116" text-anchor="middle" font-size="10" fill="var(--mu)">${'SMTWTFS'[new Date(days[i]+'T12:00:00').getDay()]}</text>`});
+  return s+'</svg>'
+}
+let pt='overview';
+function bal(){const c={};S.subs.forEach(x=>c[x]=0);S.topics.forEach(t=>t.logs.forEach(l=>{if(t.subj in c&&diffD(T(),l.d)<30)c[t.subj]+=(l.h||0)}));const tot=Object.values(c).reduce((a,b)=>a+b,0);
+ return tot?Object.entries(c).map(([k,v])=>`<div class="row mu" style="margin-top:6px"><span style="width:110px">${esc(k)}</span><div class="bar" style="flex:1;margin:0"><i style="width:${v/tot*100}%"></i></div><span style="width:44px;text-align:right">${+v.toFixed(1)}h</span></div>`).join(''):'<div class="mu">Log study hours to see how your time is split.</div>'}
+function progress(){
+ const tt=vt(),st=tt.filter(t=>t.studied),rd=st.length?st.reduce((a,t)=>a+ready(t),0)/st.length:null,tot=Object.values(S.hours).reduce((a,b)=>a+b,0);
+ const wk=(a,b)=>{let x=0;for(let i=a;i<=b;i++)x+=S.hours[addD(T(),-i)]||0;return x},tw=wk(0,6),lw=wk(7,13),dl=lw?Math.round((tw-lw)/lw*100):null;
+ const box=(v,l)=>`<div class="card"><div class="big">${v}</div><div class="mu">${l}</div></div>`;
+ const imp=tt.map(t=>({t,s:t.logs.map(sc).filter(x=>x!==null)})).filter(o=>o.s.length>1).map(o=>{const a=o.s[o.s.length-2]*100,b=o.s[o.s.length-1]*100,d=Math.round(b-a);return `<div class="card row"><div><b>${esc(o.t.name)}</b><div class="mu">${esc(o.t.subj)}</div></div><div class="${d>=0?'up':'dn'}">${Math.round(a)}% to ${Math.round(b)}% (${d>=0?'+':''}${d})</div></div>`}).join('');
+ let body='';
+ if(pt==='overview')body=`<div class="two">${box(+tot.toFixed(1)+'h','total hours')}${box(st.length+' of '+tt.length,'topics studied')}${box(rd===null?'none yet':Math.round(rd*100)+'%','average readiness')}${box(streak(),'day streak')}</div>
+ <div class="card"><div class="row"><b>Last 7 days</b><span class="mu">${+tw.toFixed(1)}h</span></div>${chart()}<div class="mu">${dl===null?'Log two weeks to compare with last week.':`Last week was ${+lw.toFixed(1)}h: <span class="${dl>=0?'up':'dn'}">${dl>=0?'+':''}${dl}%</span>`}</div></div>
+ <h2>Time by subject, last 30 days</h2><div class="card">${bal()}</div><h2>You now vs before</h2>${imp||'<div class="card mu">Log a topic twice with a rating or quiz score to see your improvement.</div>'}`;
+ else if(pt==='calendar')body=cal();
+ else body=syl();
+ return `<h1>Progress</h1><div class="row" style="gap:6px;margin:14px 0">${['overview','calendar','syllabus'].map(k=>`<button class="${pt===k?'':'g'}" style="flex:1;padding:8px 2px" onclick="pt='${k}';render()">${k[0].toUpperCase()+k.slice(1)}</button>`).join('')}</div>${body}`}
+const IC={today:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>',topics:'<path d="M5 4h11a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17a3 3 0 013-3h11"/>',revise:'<path d="M20 12a8 8 0 11-2.3-5.7"/><path d="M20 4v5h-5"/>',progress:'<path d="M5 20V11M12 20V4M19 20v-6"/>',more:'<circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/>'};
+let lastTab=null,renderedDay=null;
+function render(){
+  renderedDay=T();const TABS={today,topics,revise,progress,more},m=$('app');
+  m.innerHTML=TABS[tab]()+'<div class="wm">vibecoded by shvndn♥️</div>';strip();
+  if(lastTab!==null&&lastTab!==tab){m.classList.remove('sw');void m.offsetWidth;m.classList.add('sw');window.scrollTo(0,0)}lastTab=tab;
+  $('nav').innerHTML=Object.keys(TABS).map(k=>`<button class="${tab===k?'on':''}" aria-label="${k}" onclick="tab='${k}';render()"><svg viewBox="0 0 24 24">${IC[k]}</svg><span>${k[0].toUpperCase()+k.slice(1)}</span></button>`).join('');
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!logId&&T()!==renderedDay)render()});
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+render();
+if(loadErr)warn('Saved data could not be read, so nothing will be overwritten. A copy was kept.');
+</script></body></html>
